@@ -37,30 +37,31 @@ public class BJ_14502_연구소_심재서 {
 
 	private static void makeWall(int startR, int startC, int wallCnt) {
 		if(wallCnt==3) {
+			// map함수 그대로 사용하면 bfs하고 난 후 다시 되돌리는 작업을 해줘야하기때문에 아예 map 배열을 복사하여 복사한 배열을 사용
 			copy();
 			bfs();
 			max = Math.max(max, safeCnt() );
-			
-//			for (int j = 0; j < row; j++) {
-//				System.out.println(Arrays.toString(copyMap[j]));
-//			}
-//			System.out.println();
 			return;
 		}
 		
+		// 조합 부분
+		// 0인 곳에 하나씩 벽을 세움
 		for (int j = 0; j < row; j++) {
 			for (int j2 = 0; j2 < col; j2++) {
 				if(map[j][j2] == 0) {
 					map[j][j2] = 1;
 					makeWall(j, j2+1, wallCnt+1);
+					// 세웠던 벽을 다시 원상태로 되돌림.
 					map[j][j2] = 0;
 				}
 			}
 		}
 	}
 
+	// 안전공간을 세기 위한 함수
 	private static int safeCnt() {
 		int safeSpace = 0;
+		
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < col; j++) {
 				if(copyMap[i][j] == 0) safeSpace++;
@@ -69,6 +70,7 @@ public class BJ_14502_연구소_심재서 {
 		return safeSpace;
 	}
 
+	// map 배열 복사
 	private static void copy() {
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < col; j++) {
@@ -80,6 +82,7 @@ public class BJ_14502_연구소_심재서 {
 	private static int bfs() {
 		Queue<int[]> q = new LinkedList<>();
 		
+		// 바이러스(2)를 먼저 탐색하여 큐에 집어넣음
 		for (int j = 0; j < row; j++) {
 			for (int j2 = 0; j2 < col; j2++) {
 				if(copyMap[j][j2] == 2) {
@@ -88,6 +91,7 @@ public class BJ_14502_연구소_심재서 {
 			}
 		}
 		
+		//일반적인 bfs
 		while(!q.isEmpty()) {
 			int[] virus = q.poll();
 			
