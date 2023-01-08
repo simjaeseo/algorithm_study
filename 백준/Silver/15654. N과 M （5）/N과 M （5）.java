@@ -7,6 +7,7 @@ public class Main {
     static int N, M;
     static boolean[] isSelected;
     static int[] inputNumbers, pickedNumbers;
+    static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -33,18 +34,21 @@ public class Main {
 
     static public void permutation(int drawOfNumber) {
         if (drawOfNumber == M) {
-            for (int i = 0; i < M; i++) {
-                System.out.print(pickedNumbers[i] + " ");
-            }
-            System.out.println();
+//            for (int i = 0; i < M; i++) {
+//                System.out.print(pickedNumbers[i] + " ");
+//            }
+            System.out.println(sb);
             return;
         }
 
         for (int i = 0; i < N; i++) {
             if (isSelected[i]) continue;
             isSelected[i] = true;
-            pickedNumbers[drawOfNumber] = inputNumbers[i];
+            sb.append(inputNumbers[i]);
+            sb.append(" ");
+//            pickedNumbers[drawOfNumber] = inputNumbers[i];
             permutation(drawOfNumber + 1);
+            sb.setLength(sb.length() - String.valueOf(inputNumbers[i]).length() - 1);
             isSelected[i] = false;
 
         }
