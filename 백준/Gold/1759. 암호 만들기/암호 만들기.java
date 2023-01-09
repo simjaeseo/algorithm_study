@@ -9,8 +9,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringBuilder sb = new StringBuilder();
 
         StringTokenizer st = new StringTokenizer(br.readLine());
 
@@ -41,8 +39,6 @@ public class Main {
             }
             return;
         }
-
-        // 아직 길이 L의 코드를 만들지 않았고 글자도 아직 남았다.
 
         for (int i = startIndex; i < C; i++) {
             pickedCharacters[drawOfNumber] = inputCharacters[i];
