@@ -19,23 +19,27 @@ public class Main {
 
         N = Integer.parseInt(br.readLine());
 
-        char[] inputs = String.valueOf(N).toCharArray();
+        String input = String.valueOf(N);
 
-        Character[] numbers = new Character[inputs.length];
+        int[] countingArray = new int[10];
 
-        for (int i = 0; i < inputs.length; i++) {
-            numbers[i] = inputs[i];
+        for (int i = 0; i < input.length(); i++) {
+            countingArray[input.charAt(i) - '0']++;
         }
-
-        Arrays.sort(numbers, Comparator.reverseOrder());
 
         StringBuilder sb = new StringBuilder();
 
-        for(char number : numbers){
-            sb.append(number);
+        for (int i = countingArray.length - 1; i >= 0 ; i--) {
+
+            if(countingArray[i] == 0)   continue;
+
+            for (int j = 0; j < countingArray[i]; j++) {
+                sb.append(i);
+            }
         }
 
         System.out.println(sb);
+
     }
 
 }
