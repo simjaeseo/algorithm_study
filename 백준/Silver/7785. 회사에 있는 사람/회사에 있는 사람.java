@@ -41,8 +41,10 @@ public class Main {
         for(String name : set.stream().sorted(Collections.reverseOrder()).collect(Collectors.toList())){
             sb.append(name).append('\n');
         }
+        
+        sb.delete(sb.length()-1, sb.length());
 
-        System.out.println(sb.substring(0, sb.length()-1));
+        System.out.println(sb);
 
     }
 
