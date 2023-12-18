@@ -4,9 +4,6 @@ import java.util.stream.Collectors;
 
 
 public class Main {
-    static int N;
-    static ArrayList<Integer> originList = new ArrayList<>();
-    static ArrayList<Integer> sortedList = new ArrayList<>();
     static Set<String> set = new HashSet<>();
     static Map<String, Boolean> map = new HashMap<>();
     static StringBuilder sb = new StringBuilder();
@@ -41,7 +38,7 @@ public class Main {
         for(String name : set.stream().sorted(Collections.reverseOrder()).collect(Collectors.toList())){
             sb.append(name).append('\n');
         }
-        
+
         sb.delete(sb.length()-1, sb.length());
 
         System.out.println(sb);
