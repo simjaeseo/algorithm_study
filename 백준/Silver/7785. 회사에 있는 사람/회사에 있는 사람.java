@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 public class Main {
     static Set<String> set = new HashSet<>();
+    static Set<String> set2 = new TreeSet<>(Collections.reverseOrder());
     static Map<String, Boolean> map = new HashMap<>();
+    static Map<String, Boolean> map2 = new TreeMap<>(Collections.reverseOrder());
     static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
@@ -28,14 +30,14 @@ public class Main {
             String command = st.nextToken();
 
             if(command.equals("enter")){
-                set.add(name);
+                set2.add(name);
             }else{
-                set.remove(name);
+                set2.remove(name);
             }
         }
 
 
-        for(String name : set.stream().sorted(Collections.reverseOrder()).collect(Collectors.toList())){
+        for(String name : set2){
             sb.append(name).append('\n');
         }
 
