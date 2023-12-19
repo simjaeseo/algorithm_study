@@ -22,54 +22,36 @@ public class Main {
 
         st = new StringTokenizer(br.readLine());
 
-        long A = Integer.parseInt(st.nextToken());
-        long B = Integer.parseInt(st.nextToken());
+        int A = Integer.parseInt(st.nextToken());
+        int B = Integer.parseInt(st.nextToken());
 
         st = new StringTokenizer(br.readLine());
 
-        long C = Integer.parseInt(st.nextToken());
-        long D = Integer.parseInt(st.nextToken());
+        int C = Integer.parseInt(st.nextToken());
+        int D = Integer.parseInt(st.nextToken());
 
-        long bunja = 0;
-        long bunmo = 0;
+        int bunja = 0;
+        int bunmo = 0;
 
-        // 분모가 같은 경우
-        if (B == D) {
-            bunmo = B;
-            bunja = A + C;
-        }else{
-            bunmo = B * D;
-            bunja = A * D + C * B;
-        }
+        bunmo = B * D;
+        bunja = A * D + C * B;
 
-        long[] result = yagbun(bunja, bunmo);
+        int a = Math.max(bunja, bunmo);
+        int b = Math.min(bunja, bunmo);
 
-        System.out.println(result[0] + " " + result[1]);
+        int gcd = euclidGCD(a, b);
+
+        System.out.println(bunja/gcd + " " + bunmo/gcd);
 
 
     }
 
-    private static long[] yagbun(long bunja, long bunmo) {
-
-        long maxNumber = Math.max(bunja,bunmo);
-        long minNumber = Math.min(bunja,bunmo);
-
-        for (long i = 2; i <= minNumber; i++) {
-
-            while(minNumber % i == 0 && maxNumber % i == 0){
-                bunmo /= i;
-                bunja /= i;
-
-                 maxNumber = Math.max(bunja,bunmo);
-                 minNumber = Math.min(bunja,bunmo);
-            }
-
-
+    private static int euclidGCD(int a, int b) {
+        if (b == 0) {
+            return a;
         }
 
-
-        return new long[] { bunja, bunmo};
-
+        return euclidGCD(b, a%b);
     }
 
 
