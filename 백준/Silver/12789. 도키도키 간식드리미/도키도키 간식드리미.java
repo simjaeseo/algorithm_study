@@ -34,46 +34,33 @@ public class Main {
         }
 
         int order = 1;
-        int previousTempLineSize = 0;
+        String answer = "Nice";
 
-        while (true) {
+        while(!originLine.isEmpty()){
 
-            if (originLine.isEmpty() && tempLine.isEmpty()) {
-                sb.append("Nice");
+            if(originLine.peek() == order){
+                originLine.pop();
+                order++;
+            }else if(originLine.peek() != order && tempLine.isEmpty()){
+                tempLine.add(originLine.pop());
+            }else if(originLine.peek() != order && tempLine.peek() == order){
+                tempLine.pop();
+                order++;
+            }else if(originLine.peek() != order && tempLine.peek() != order){
+                tempLine.add(originLine.pop());
+            }
+        }
+        while(!tempLine.isEmpty()){
+            if(tempLine.peek() == order){
+                tempLine.pop();
+                order++;
+            }else{
+                answer = "Sad";
                 break;
-            }
-
-            if (originLine.isEmpty() && !tempLine.isEmpty()) {
-                previousTempLineSize = tempLine.size();
-            }
-
-
-            // 원래 줄이 안비어있고, 맨 앞사람이 해당 순서라면,
-            if (!originLine.isEmpty() && originLine.peek() == order) {
-                order = originLine.pop() + 1;
-            } else if (!originLine.isEmpty() && originLine.peek() != order) {
-                //원래 줄이 안비어있고, 맨 앞사람이 해당 순서가 아니라면,
-
-                if (!tempLine.isEmpty() && tempLine.peek() == order) {
-                    order = tempLine.pop() + 1;
-                } else if (!tempLine.isEmpty() && tempLine.peek() != order) {
-                    tempLine.add(originLine.pop());
-                } else if (tempLine.isEmpty()) {
-                    tempLine.add(originLine.pop());
-                }
-            }else if(originLine.isEmpty() && tempLine.peek() == order){
-                order = tempLine.pop() + 1;
-            }
-
-
-            if (originLine.isEmpty() && !tempLine.isEmpty()) {
-                if (previousTempLineSize == tempLine.size()) {
-                    sb.append("Sad");
-                    break;
-                }
             }
         }
 
-        System.out.println(sb);
+
+        System.out.println(answer);
     }
 }
