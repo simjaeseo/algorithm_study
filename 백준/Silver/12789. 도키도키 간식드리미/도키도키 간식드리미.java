@@ -41,12 +41,12 @@ public class Main {
             if(originLine.peek() == order){
                 originLine.pop();
                 order++;
-            }else if(originLine.peek() != order && tempLine.isEmpty()){
+            }else if(tempLine.isEmpty()){
                 tempLine.add(originLine.pop());
-            }else if(originLine.peek() != order && tempLine.peek() == order){
+            }else if(tempLine.peek() == order){
                 tempLine.pop();
                 order++;
-            }else if(originLine.peek() != order && tempLine.peek() != order){
+            }else if(tempLine.peek() != order){
                 tempLine.add(originLine.pop());
             }
         }
