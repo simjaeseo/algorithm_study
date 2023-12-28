@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public class Main {
     private static int n;
-    private static LinkedList<Integer> q = new LinkedList<>();
+    private static Deque<Integer> q = new ArrayDeque<>();
 
 
 
@@ -31,23 +31,19 @@ public class Main {
                     q.add(number);
                     break;
                 case "pop":
-                    if(q.isEmpty()) sb.append(-1).append('\n');
-                    else sb.append(q.pop()).append('\n');
+                    sb.append(q.isEmpty() ? -1 : q.pop()).append('\n');
                     break;
                 case "size":
                     sb.append(q.size()).append('\n');
                     break;
                 case "empty":
-                    if(q.isEmpty()) sb.append(1).append('\n');
-                    else sb.append(0).append('\n');
+                    sb.append(q.isEmpty() ? 1 : 0).append('\n');
                     break;
                 case "front":
-                    if(q.isEmpty()) sb.append(-1).append('\n');
-                    else sb.append(q.peek()).append('\n');
+                    sb.append(q.isEmpty() ? -1 : q.peek()).append('\n');
                     break;
                 case "back":
-                    if(q.isEmpty()) sb.append(-1).append('\n');
-                    else sb.append(q.get(q.size()-1)).append('\n');
+                    sb.append(q.isEmpty() ? -1 : q.peekLast()).append('\n');
                     break;
             }
         }
