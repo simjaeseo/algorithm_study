@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int N, roadDistance[], oilPrice[], index, nowOilPrice, roadDistanceSum, result;
+    static long N, roadDistance[], oilPrice[], index, nowOilPrice, roadDistanceSum, result;
 
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer st;
@@ -21,17 +21,17 @@ public class Main {
         index = 0;
 
         while(index < N-1) {
-            nowOilPrice = oilPrice[index];
+            nowOilPrice = oilPrice[(int) index];
             roadDistanceSum = 0;
 
             while (true) {
                 if (index == N - 1) break;
 
-                if (oilPrice[index + 1] >= nowOilPrice) {
-                    roadDistanceSum += roadDistance[index];
+                if (oilPrice[(int) (index + 1)] >= nowOilPrice) {
+                    roadDistanceSum += roadDistance[(int) index];
                     index++;
-                }else if (oilPrice[index + 1] < nowOilPrice) {
-                    roadDistanceSum += roadDistance[index];
+                }else if (oilPrice[(int) (index + 1)] < nowOilPrice) {
+                    roadDistanceSum += roadDistance[(int) index];
                     index++;
                     break;
                 }
@@ -47,21 +47,21 @@ public class Main {
     private static void init() throws IOException {
         N = Integer.parseInt(br.readLine());
 
-        roadDistance = new int[N - 1];
-        oilPrice = new int[N];
+        roadDistance = new long[(int) (N - 1)];
+        oilPrice = new long[(int) N];
 
         st = new StringTokenizer(br.readLine());
 
         index = 0;
         while (st.hasMoreTokens()) {
-            roadDistance[index++] = Integer.parseInt(st.nextToken());
+            roadDistance[(int) index++] = Integer.parseInt(st.nextToken());
         }
 
         st = new StringTokenizer(br.readLine());
 
         index = 0;
         while (st.hasMoreTokens()) {
-            oilPrice[index++] = Integer.parseInt(st.nextToken());
+            oilPrice[(int) index++] = Integer.parseInt(st.nextToken());
         }
     }
 
