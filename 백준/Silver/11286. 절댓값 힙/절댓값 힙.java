@@ -24,14 +24,12 @@ public class Main {
 
             @Override
             public int compare(Integer o1, Integer o2){
-                BigInteger bi1 = BigInteger.valueOf(o1);
-                BigInteger bi2 = BigInteger.valueOf(o2);
 
 
                 if(  Math.abs(o1) != Math.abs(o2)){
-                    return bi1.abs().compareTo(bi2.abs());
+                    return Math.abs(o1) - Math.abs(o2);
                 }
-                return bi1.compareTo(bi2);
+                return o1 - o2;
 
             }
         };
