@@ -26,7 +26,6 @@ public class Main {
             int temp = 0;
 
             StringTokenizer st2 = new StringTokenizer(st.nextToken(), "+");
-
             while(st2.hasMoreTokens()){
                 temp += Integer.parseInt(st2.nextToken());
             }
