@@ -91,8 +91,14 @@ public class Main {
 
 
         if(K != 0){
-            kR = K / M;
-            kC = (K % M) - 1;
+            if(K%M == 0){
+                K--;
+                kR = K / M;
+                kC = (K % M);
+            }else{
+                kR = K / M;
+                kC = (K % M) - 1;
+            }
         }else{
             kR = -1;
             kC = -1;
