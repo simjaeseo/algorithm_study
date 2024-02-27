@@ -44,44 +44,66 @@ public class Main {
     }
 
     private static boolean bfs(int r, int c) {
-        Queue<int[]> q = new LinkedList<>();
-        Queue<int[]> nationsPosition = new LinkedList<>();
-        int sum = 0;
-        int countryCount = 0;
+        boolean existUnion = false;
+        
+        for (int i = 0; i < 4; i++) {
+            int mr = r + dr[i];
+            int mc = c + dc[i];
 
-        isVisited[r][c] = true;
+            if (mr < 0 || mc < 0 || mr >= N || mc >= N || isVisited[mr][mc]) continue;
 
-        q.add(new int[]{r, c});
-        nationsPosition.add(new int[]{r, c});
+            int humanGap = Math.abs(map[r][c] - map[mr][mc]);
+            if (humanGap < L || humanGap > R) continue;
+            
+            existUnion = true;
+            break;
+        }
+        
+        
+        if(existUnion){
 
-        while (!q.isEmpty()) {
-            int[] position = q.poll();
-            sum += map[position[0]][position[1]];
-            countryCount++;
+            Queue<int[]> q = new LinkedList<>();
+            Queue<int[]> nationsPosition = new LinkedList<>();
+            int sum = 0;
+            int countryCount = 0;
 
-            for (int i = 0; i < 4; i++) {
-                int mr = position[0] + dr[i];
-                int mc = position[1] + dc[i];
+            isVisited[r][c] = true;
 
-                if (mr < 0 || mc < 0 || mr >= N || mc >= N || isVisited[mr][mc]) continue;
+            q.add(new int[]{r, c});
+            nationsPosition.add(new int[]{r, c});
 
-                int humanGap = Math.abs(map[position[0]][position[1]] - map[mr][mc]);
-                if (humanGap < L || humanGap > R) continue;
+            while (!q.isEmpty()) {
+                int[] position = q.poll();
+                sum += map[position[0]][position[1]];
+                countryCount++;
 
-                q.add(new int[]{mr, mc});
-                nationsPosition.add(new int[]{mr, mc});
-                isVisited[mr][mc] = true;
+                for (int i = 0; i < 4; i++) {
+                    int mr = position[0] + dr[i];
+                    int mc = position[1] + dc[i];
+
+                    if (mr < 0 || mc < 0 || mr >= N || mc >= N || isVisited[mr][mc]) continue;
+
+                    int humanGap = Math.abs(map[position[0]][position[1]] - map[mr][mc]);
+                    if (humanGap < L || humanGap > R) continue;
+
+                    q.add(new int[]{mr, mc});
+                    nationsPosition.add(new int[]{mr, mc});
+                    isVisited[mr][mc] = true;
+                }
             }
+
+            int newHuman = sum/countryCount;
+
+            while(!nationsPosition.isEmpty()){
+                int[] p = nationsPosition.poll();
+                map[p[0]][p[1]] = newHuman;
+            }
+
+            if(countryCount>= 2)    return true;
+            return false;
         }
-
-        int newHuman = sum/countryCount;
-
-        while(!nationsPosition.isEmpty()){
-            int[] p = nationsPosition.poll();
-            map[p[0]][p[1]] = newHuman;
-        }
-
-        if(countryCount>= 2)    return true;
+        
+        
         return false;
     }
 
@@ -104,3 +126,4 @@ public class Main {
     }
 
 }
+
