@@ -20,31 +20,24 @@ public class Main {
         dp[0] = dp[1] = 0;
 
         System.out.println(recursion(n));
-
-
     }
 
-    private static int recursion(int n) {
+    private static int recursion(int number) {
 
-        if (dp[n] == null) {
-            // 6으로 나눠지는 경우
-            if (n % 6 == 0) {
-                dp[n] = Math.min(recursion(n - 1), Math.min(recursion(n / 3), recursion(n / 2))) + 1;
-            }
-            // 3으로만 나눠지는 경우
-            else if (n % 3 == 0) {
-                dp[n] = Math.min(recursion(n / 3), recursion(n - 1)) + 1;
-            }
-            // 2로만 나눠지는 경우
-            else if (n % 2 == 0) {
-                dp[n] = Math.min(recursion(n / 2), recursion(n - 1)) + 1;
-            }
-            // 2와 3으로 나누어지지 않는 경우
-            else {
-                dp[n] = recursion(n - 1) + 1;
+        // 아직 값이 안구해졌으면,
+        if(dp[number] == null){
+            if(number % 6 == 0){
+                dp[number] = Math.min(recursion(number/3), Math.min(recursion(number/2), recursion(number-1))) + 1;
+            }else if(number % 3 == 0){
+                dp[number] = Math.min(recursion(number/3), recursion(number-1)) + 1;
+            }else if(number % 2 == 0){
+                dp[number] = Math.min(recursion(number/2), recursion(number-1)) + 1;
+            }else{
+                dp[number] = recursion(number-1) + 1;
             }
         }
-        return dp[n];
+
+        return dp[number];
     }
 
 
