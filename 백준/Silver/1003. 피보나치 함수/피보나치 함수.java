@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Main {
     static int n, t, z , o;
-    static Count dp[];
+    static Integer dp[][];
 
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer st;
@@ -15,31 +15,22 @@ public class Main {
     }
 
     private static void progress() {
+        fibonacci(n);
 
-
-        Count fibonacci = fibonacci(n);
-
-        System.out.println(fibonacci.zero + " " + fibonacci.one);
+        System.out.println(dp[n][0] + " " + dp[n][1]);
     }
 
-    private static Count fibonacci(int number) {
-        if(number == 0){
-//            o += dp[0].one;
-//            z += dp[0].zero;
-            return dp[0];
-        }else if(number == 1){
-//            o += dp[1].one;
-//            z += dp[1].zero;
-            return dp[1];
-        }else if(number == 2){
-            return dp[2];
-        }
+    private static Integer[] fibonacci(int number) {
 
-        if(dp[number] == null){
-            Count fibo1 = fibonacci(number - 1);
-            Count fibo2 = fibonacci(number - 2);
+        if(dp[number][0] == null || dp[number][1] == null){
+            dp[number-1] = fibonacci(number - 1);
+            dp[number-2] = fibonacci(number - 2);
 
-            dp[number] = new Count(fibo1.zero + fibo2.zero, fibo1.one+ fibo2.one);
+            dp[number][0] = dp[number-1][0] + dp[number-2][0];
+            dp[number][1] = dp[number-1][1] + dp[number-2][1];
+
+//            dp[number][0] = fibonacci(number - 1)[0] + fibonacci(number - 2)[0];
+//            dp[number][1] = fibonacci(number - 1)[1] + fibonacci(number - 2)[1];
         }
 
         return dp[number];
@@ -48,10 +39,11 @@ public class Main {
 
     private static void init() throws IOException {
         t = Integer.parseInt(br.readLine());
-        dp = new Count[41];
-        dp[0] = new Count(1,0);
-        dp[1] = new Count(0,1);
-        dp[2] = new Count(1,1);
+        dp = new Integer[41][2];
+        dp[0][0] = 1;
+        dp[0][1] = 0;
+        dp[1][0] = 0;
+        dp[1][1] = 1;
 
         for (int i = 0; i < t; i++) {
             n = Integer.parseInt(br.readLine());
