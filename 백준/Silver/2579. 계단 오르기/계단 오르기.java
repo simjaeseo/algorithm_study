@@ -14,18 +14,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         init();
 
-//        progress();
-        progress1();
-    }
-
-    private static void progress1() {
-
-        for (int i = 3; i <= n; i++) {
-            dp[i] = Math.max(dp[i-2], dp[i-3] + sequence[i-1]) + sequence[i];
-        }
-
-        System.out.println(dp[n]);
-
+        progress();
     }
 
     private static void progress() {
