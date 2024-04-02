@@ -17,21 +17,21 @@ public class Main {
     }
 
     private static void process() {
-        int index = 0;
 
 
-        for(int[] meeting : meetings){
+        for (int i = 0; i < N; i++) {
 
-            int t  = meeting[0];
+            int[] meeting = meetings.get(i);
+
+            int t = meeting[0];
             int p = meeting[1];
 
-            if(index + t <= N ){
-                dp[index + t] = Math.max(dp[index+t],  p + dp[index]);
+            if(i + t <= N){
+                dp[i + t] = Math.max(dp[i] + p, dp[i + t]);
             }
-            dp[index+1] = Math.max(dp[index+1], dp[index]);
-            index++;
-        }
+            dp[i+1] = Math.max(dp[i+1], dp[i]);
 
+        }
 
 
         System.out.println(dp[N]);
