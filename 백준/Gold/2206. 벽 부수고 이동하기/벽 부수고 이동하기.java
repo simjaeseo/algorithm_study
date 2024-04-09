@@ -32,7 +32,7 @@ public class Main {
         while(!q.isEmpty()){
             Position position = q.poll();
 
-            if(position.r == N-1 && position.c == M-1) return isVisited[position.r][position.c][position.breakingFlag];
+            if(position.r == N-1 && position.c == M-1) return isVisited[position.breakingFlag][position.r][position.c];
 
             for (int i = 0; i < 4; i++) {
                 int mr = position.r + dr[i];
@@ -40,14 +40,14 @@ public class Main {
                 int nextBreakingFlag = position.breakingFlag;
 
                 if(mr < 0 || mc < 0 || mr>= N || mc >= M)   continue;
-                if(isVisited[mr][mc][position.breakingFlag] > 0) continue;
+                if(isVisited[position.breakingFlag][mr][mc] > 0) continue;
 
                 if(map[mr][mc] == 0){
-                    isVisited[mr][mc][nextBreakingFlag] = isVisited[position.r][position.c][position.breakingFlag] + 1;
+                    isVisited[nextBreakingFlag][mr][mc] = isVisited[position.breakingFlag][position.r][position.c] + 1;
                     q.add(new Position(mr,mc, position.breakingFlag));
                 }
                 if(map[mr][mc] == 1 && nextBreakingFlag == 0){
-                    isVisited[mr][mc][1] = isVisited[position.r][position.c][position.breakingFlag] + 1;
+                    isVisited[1][mr][mc] = isVisited[position.breakingFlag][position.r][position.c] + 1;
                     nextBreakingFlag = 1;
                     q.add(new Position(mr,mc, nextBreakingFlag));
                 }
@@ -65,7 +65,7 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
 
         map = new int[N][M];
-        isVisited = new int[N][M][2];
+        isVisited = new int[2][N][M];
 
         for (int i = 0; i < N; i++) {
             char[] inputs = br.readLine().toCharArray();
