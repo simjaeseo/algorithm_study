@@ -40,6 +40,7 @@ public class Main {
 
         while (!q.isEmpty()) {
             int[] position = q.poll();
+            if(position[2] >= minDistance) continue;
 
             for (int i = 0; i < 4; i++) {
                 int mr = position[0] + dr[i];
