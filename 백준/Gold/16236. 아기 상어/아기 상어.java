@@ -4,14 +4,10 @@ import java.io.*;
 public class Main {
     static int N, maxSecond;
     static int[][] map;
-    static int[][] distanceMap;
     static boolean[][] isVisited;
     static Shark shark;
-    static LinkedList<Fish> fish = new LinkedList<>();
-
     static int[] dr = new int[]{0, 0, 1, -1};
     static int[] dc = new int[]{1, -1, 0, 0};
-    static StringBuilder sb = new StringBuilder();
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer st;
 
@@ -20,95 +16,68 @@ public class Main {
         init();
 
         process();
+
+        System.out.println(maxSecond);
     }
 
     private static void process() {
-
-
-        while(fish.size() != 0){
-            calculateDistance();
-
-            int index = -1;
-            for (int i = 0; i < fish.size(); i++) {
-                if(fish.get(i).size < shark.size && fish.get(i).distanceToShark != Integer.MAX_VALUE) {
-                    index = i;
-                    break;
-                }
-            }
-
-            if(index == -1 ) break;
-            Fish f = fish.remove(index);
-
-
-            map[shark.r][shark.c] = 0;
-            shark.r = f.r;
-            shark.c = f.c;
-            map[f.r][f.c] = 9;
-            shark.countEattingFish++;
-            maxSecond += f.distanceToShark;
-
-            if(shark.countEattingFish == shark.size){
-                shark.size++;
-                shark.countEattingFish = 0;
-            }
-
-//            for (int i = 0; i < N; i++) {
-//                System.out.println(Arrays.toString(map[i]));
-//            }
-//            System.out.println(shark.size + " " + maxSecond);
-////            System.out.println(index);
-//            System.out.println();
-
-        }
-        System.out.println(maxSecond);
-
+        bfsAndEatFish();
     }
 
-    private static void calculateDistance() {
+    private static void bfsAndEatFish() {
 
         Queue<int[]> q = new LinkedList<>();
         isVisited = new boolean[N][N];
-        distanceMap = new int[N][N];
 
         q.add(new int[]{shark.r, shark.c});
         isVisited[shark.r][shark.c] = true;
-        distanceMap[shark.r][shark.c] = 0;
+
+        PriorityQueue<Fish> pq = new PriorityQueue<>();
+        int distance = 0;
 
         while(!q.isEmpty()){
-            int[] position = q.poll();
+            int qSize = q.size();
 
-            for (int i = 0; i < 4; i++) {
-                int mr = position[0] + dr[i];
-                int mc = position[1] + dc[i];
+            for (int i = 0; i < qSize; i++) {
+                int[] sharkPosition = q.poll();
 
-                if(mr < 0 || mc < 0 || mr >= N || mc >= N || isVisited[mr][mc]) continue;
-                if(map[mr][mc] > shark.size)    continue;
+                for (int j = 0; j < 4; j++) {
+                    int mr = sharkPosition[0] + dr[j];
+                    int mc = sharkPosition[1] + dc[j];
 
-                distanceMap[mr][mc] = distanceMap[position[0]][position[1]] + 1;
-                q.add(new int[]{mr,mc});
-                isVisited[mr][mc] = true;
+                    if(mr < 0 || mc < 0 || mr >= N || mc >= N || isVisited[mr][mc]) continue;
+
+                    if(map[mr][mc] != 0 && map[mr][mc] < shark.size){
+                        pq.add(new Fish(mr,mc,map[mr][mc]));
+                    }
+                    if(map[mr][mc] <= shark.size){
+                        q.add(new int[]{mr,mc});
+                        isVisited[mr][mc] = true;
+                    }
+                }
+            }
+
+            distance++;
+
+            if(!pq.isEmpty()){
+                Fish fish = pq.poll();
+                shark.countEattingFish++;
+                map[fish.r][fish.c] = 0; //물고기 먹었으니 그 자리는 0으로 만들기
+
+                if(shark.countEattingFish == shark.size){
+                    shark.size++;
+                    shark.countEattingFish = 0;
+                }
+
+                maxSecond += distance; // 물고기 위치까지 간 시간 더해주기
+                distance = 0;
+                pq.clear();
+                q.clear();
+                isVisited = new boolean[N][N];
+                q.add(new int []{fish.r, fish.c});
+                isVisited[fish.r][fish.c] = true;
             }
         }
-
-//        for (int i = 0; i < N; i++) {
-//            System.out.println(Arrays.toString(distanceMap[i]));
-//        }
-
-
-        for(Fish f : fish){
-            if(distanceMap[f.r][f.c] == 0){
-                f.distanceToShark = Integer.MAX_VALUE;
-            }else{
-                f.distanceToShark = distanceMap[f.r][f.c];
-            }
-        }
-
-        Collections.sort(fish);
-//
-//        for(Fish f : fish) {
-//            System.out.println(f.size + " " + f.distanceToShark + " " + f.r + " " + f.c + " " );
-//        }
-//        System.out.println();
     }
 
 
@@ -118,23 +87,17 @@ public class Main {
 
         map = new int[N][N];
 
-
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
 
             for (int j = 0; j < N; j++) {
                 map[i][j] = Integer.parseInt(st.nextToken());
 
-
                 if (map[i][j] == 9) {
                     shark = new Shark(i, j, 2, 0);
-                } else if (map[i][j] != 0) {
-                    Fish f = new Fish(i, j, map[i][j]);
-                    fish.add(f);
+                    map[i][j] = 0;
                 }
-
             }
-
         }
     }
 
@@ -142,7 +105,6 @@ public class Main {
         int r;
         int c;
         int size;
-        int distanceToShark;
 
         public Fish(int r, int c, int size) {
             this.r = r;
@@ -152,15 +114,13 @@ public class Main {
 
 
         @Override
-        public int compareTo(Fish o1) {
+        public int compareTo(Fish o) {
             int res = 0;
 
-            if (this.distanceToShark != o1.distanceToShark) {
-                res = this.distanceToShark - o1.distanceToShark;
-            }else if (this.r != o1.r) {
-                res = this.r - o1.r;
+            if (this.r == o.r) {
+                res = this.c - o.c;
             } else {
-                res = this.c - o1.c;
+                res = this.r - o.r;
             }
             return res;
         }
