@@ -3,7 +3,7 @@ import java.io.*;
 
 public class Main {
     static int N, triangle[][], maxNumber= 0;
-    static int dp[][];
+    static Integer dp[][];
 
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer st;
@@ -14,40 +14,23 @@ public class Main {
     }
 
     private static void process() {
-
-        if( N == 1){
-            System.out.println(triangle[0][0]);
-            return;
-        }
-        dp();
-
+        System.out.println(dp(0,0));
     }
 
-    private static void dp() {
+    private static int dp(int r, int c) {
+        if(r == N-1)    return dp[r][c];
 
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j <= i; j++) {
-
-
-                if(i != N - 1){
-                    dp[i+1][j] = Math.max(dp[i][j] + triangle[i+1][j], dp[i+1][j]);
-                    dp[i+1][j+1] = Math.max(dp[i][j] + triangle[i+1][j+1], dp[i+1][j+1]);
-                }else{
-                    maxNumber = Math.max(dp[i][j], maxNumber);
-                }
-            }
+        if(dp[r][c] == null){
+            dp[r][c] = Math.max(dp(r+1, c), dp(r+1, c+1)) + triangle[r][c];
         }
-
-        System.out.println(maxNumber);
-
-
+        return dp[r][c];
     }
 
     private static void init() throws IOException {
         N = Integer.parseInt(br.readLine());
 
         triangle = new int[N][N];
-        dp = new int[N][N];
+        dp = new Integer[N][N];
 
         int index = 0;
         for (int i = 0; i < N; i++) {
@@ -59,13 +42,10 @@ public class Main {
             }
         }
 
-        if(N == 1){
-            return;
+        for (int i = 0; i < N; i++) {
+            dp[N-1][i] = triangle[N-1][i];
         }
 
-        dp[0][0] = triangle[0][0];
-        dp[1][0] = triangle[0][0] + triangle[1][0];
-        dp[1][1] = triangle[0][0] + triangle[1][1];
 
 //        for (int i = 0; i < N; i++) {
 //            System.out.println(Arrays.toString(dp[i]));
