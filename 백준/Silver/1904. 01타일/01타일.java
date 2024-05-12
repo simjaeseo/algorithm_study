@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static int A, B, C;
+    static int N;
     static Integer dp[];
 
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -14,15 +14,11 @@ public class Main {
     }
 
     private static void process() {
-        System.out.println(dp(A));
+        System.out.println(dp(N));
 
     }
 
     private static int dp(int n) {
-
-        if(n == 1 ) return 1;
-        if(n == 2) return 2;
-
 
         if(dp[n] == null){
             dp[n] = (dp(n-2) + dp(n-1))  % 15746;
@@ -32,13 +28,13 @@ public class Main {
 
     private static void init() throws IOException {
 
-        A = Integer.parseInt(br.readLine());
+        N = Integer.parseInt(br.readLine());
 
-        dp = new Integer[A+1];
+        dp = new Integer[N+1];
 
         dp[0] = 0;
         dp[1] = 1;
-        if(A >= 2) dp[2] = 2;
+        if(N >= 2) dp[2] = 2;
     }
 
 }
