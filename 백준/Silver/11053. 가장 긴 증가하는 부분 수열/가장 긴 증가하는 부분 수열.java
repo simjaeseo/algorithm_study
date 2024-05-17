@@ -1,11 +1,8 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    static int n, t, z , o;
-    static int sequence[];
+    static int N, numbers[],maxLength=1;
     static Integer dp[];
 
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -13,52 +10,48 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         init();
-
-        progress();
+        process();
     }
 
-    private static void progress() {
 
-        for (int i = 0; i < n; i++) {
-            recursion(i);
-        }
+    private static void process() {
 
 
-        int result = 0;
-        for (int i = 0; i < n; i++) {
-            result = Math.max(result, dp[i]);
-        }
-        System.out.println(result);
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < i; j++) {
 
-    }
-
-    private static int recursion(int number) {
-
-        if(dp[number] == null){
-            dp[number] = 1;
-
-            for (int i = number - 1; i >= 0; i--) {
-                if(sequence[i] < sequence[number]){
-                    dp[number] = Math.max(dp[number], recursion(i) + 1);
+                if(numbers[j] < numbers[i] && dp[j] + 1 > dp[i]){
+                    dp[i] = dp[j] + 1;
+                }
+                if(dp[i] > maxLength){
+                    maxLength = dp[i];
                 }
             }
         }
 
-        return dp[number];
+
+        System.out.println(maxLength);
     }
+
 
     private static void init() throws IOException {
-        n = Integer.parseInt(br.readLine());
 
-        sequence = new int[n];
-        dp = new Integer[n];
+        N = Integer.parseInt(br.readLine());
 
-        st = new StringTokenizer(br.readLine());
+        dp = new Integer[N];
+        numbers = new int[N];
 
-        int i = 0;
+        int index = 0;
+        st= new StringTokenizer(br.readLine());
         while(st.hasMoreTokens()){
-            sequence[i++] = Integer.parseInt(st.nextToken());
+            numbers[index++] = Integer.parseInt(st.nextToken());
         }
-    }
 
+        for (int i = 0; i < N; i++) {
+            dp[i] = 1;
+        }
+
+//        dp[i] = 수열의 i번째 요소로 끝나는 가장 긴 증가하는 부분 수열의 길이
+
+    }
 }
