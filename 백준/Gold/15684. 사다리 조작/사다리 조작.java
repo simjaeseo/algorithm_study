@@ -38,7 +38,7 @@ public class Main {
                 //인접한 가로선이 없다면
                 if(!ladders[i][j-1] && !ladders[i][j] && !ladders[i][j+1] ){
                     ladders[i][j] = true;
-                    dfs(count+1, i, j+2);
+                    dfs(count+1, i, j);
                     ladders[i][j] = false;
                 }
             }
