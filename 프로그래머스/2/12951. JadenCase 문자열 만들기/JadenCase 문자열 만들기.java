@@ -2,29 +2,15 @@ import java.util.*;
 
 class Solution {
     public String solution(String s) {
-        StringBuilder sb = new StringBuilder();
+        String answer = "";
+        String[] sp = s.toLowerCase().split("");
+        boolean flag = true;
         
-        s = " " + s + " ";
-        
-        char[] inputs = s.toCharArray();
-        
-        for(int i = 1; i < inputs.length; i++){
-            
-            if(inputs[i] == ' ') sb.append(' ');
-            else if(inputs[i-1] == ' ' && inputs[i] != ' '){
-                if(inputs[i] >= '0' && inputs[i] <= '9' || Character.isUpperCase(inputs[i]))    {
-                    sb.append(inputs[i]);
-                    continue;
-                }
-                sb.append(Character.toUpperCase(inputs[i]));
-            }else if(inputs[i-1] != ' ' && inputs[i] != ' ' && Character.isUpperCase(inputs[i])) {
-                sb.append(inputs[i] = Character.toLowerCase(inputs[i]));
-            }else{
-                sb.append(inputs[i]);
-            }
+        for(String ss : sp){
+            answer +=  flag ? ss.toUpperCase() : ss;
+            flag = ss.equals(" ") ? true : false;
         }
         
-        sb.delete(sb.length() - 1, sb.length());
-        return sb.toString();
+        return answer;
     }
 }
