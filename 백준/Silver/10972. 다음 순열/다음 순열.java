@@ -16,23 +16,23 @@ class Main {
 
 
     private static void solve() {
-        //뒤에서부터 꼭대기 찾기
+        // 1. 뒤에서부터 꼭대기 찾기
         int topIndex = findTopIndex();
 
+        // 마지막 수열이면,
         if(topIndex == 0){
             System.out.println(-1);
             return;
         }
 
-        // 뒤에서부터 꼭대기까지 숫자 중 꼭대기 바로 앞 숫자보다 큰 숫자 찾기
+        // 2. 뒤에서부터 꼭대기까지 숫자 중 꼭대기 바로 앞 숫자보다 큰 숫자 찾기
         int numberIndex = findNumberIndex(topIndex);
 
-        int temp = numbers[topIndex-1];
-
-        numbers[topIndex-1] = numbers[numberIndex];
-        numbers[numberIndex] = temp;
+        // 3. 꼭대기 바로 전이랑 2번이랑 스왑
+        swap(topIndex-1, numberIndex);
 
 
+        // 4. 뒤에서부터 꼭대기까지 정렬
         topSort(topIndex);
 
         for (int i = 0; i < N; i++) {
@@ -44,7 +44,6 @@ class Main {
     private static void topSort(int topIndex) {
         int left = topIndex;
         int right = N-1;
-
 
         while(left < right){
             swap(left++, right--);
@@ -67,19 +66,12 @@ class Main {
         return 0;
     }
 
-    // 54321
-    // 52143
-
     private static int findTopIndex() {
-
         for (int i = N-1; i > 0 ; i--) {
             if(numbers[i-1] < numbers[i]) return i;
         }
 
         return 0;
-
-
-
     }
 
 
@@ -93,18 +85,4 @@ class Main {
             numbers[i] = Integer.parseInt(st.nextToken());
         }
     }
-
 }
-/*
-1234
-1243
-1324
-1342
-1423
-1432
-2134
-
-
-
-
- */
