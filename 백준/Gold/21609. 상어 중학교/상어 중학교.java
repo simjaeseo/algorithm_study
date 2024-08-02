@@ -25,9 +25,6 @@ class Main {
 //        오토플레이 반복 (블록 그룹 없을때까지)
 //        1. 크기 가장 큰 블록 그룹 찾기 (크기 같은게 여러개면 무지개 블록 개수 가장큰거 -> 기준 블록 행이 가장 큰거 -> 열이 가장 큰거
 //                - 1. 블록 그룹 찾을때 같은색만!
-
-
-
         while (true) {
             isVisited = new boolean[N][N];
 
@@ -41,37 +38,16 @@ class Main {
 
             if(pq.isEmpty())    break;
 
-//            for(BlockGroup bg : pq){
-//                System.out.println(bg.baseBlockR + " " + bg.baseBlockC + " " + bg.numberOfRainbowBlock);
-//            }
-
 //        2. 블록 그룹 모드 제거 후 B^2점 획득
             BlockGroup blockGroup = pq.poll();
             pq.clear();
             removeBlockGroup(blockGroup);
-//            for (int i = 0; i < N; i++) {
-//                System.out.println(Arrays.toString(map[i]));
-//            }
-//            System.out.println();
 //        3. 중력 작용 (검은색 블록은 중력X)
             gravity();
-//            for (int i = 0; i < N; i++) {
-//                System.out.println(Arrays.toString(map[i]));
-//            }
-//            System.out.println();
 //        4. 90도 반시계 방향 회전
             rotate();
-//            for (int i = 0; i < N; i++) {
-//                System.out.println(Arrays.toString(map[i]));
-//            }
-//            System.out.println();
 //        5. 중력
             gravity();
-//            for (int i = 0; i < N; i++) {
-//                System.out.println(Arrays.toString(map[i]));
-//            }
-//            System.out.println();
-//            return;
         }
 
         System.out.println(point);
