@@ -16,24 +16,28 @@ class Main {
 
 
     private static void solve() {
-        // 1. 뒤에서부터 꼭대기 찾기
+
+        //1. 뒤에서부터 탐색하면서, 꼭대기가 어디인지 인덱스 구하자.
         int topIndex = findTopIndex();
 
-        // 마지막 수열이면,
+        // 꼭대기가 0이라는것은 맨 마지막 수열이라는 것.
         if(topIndex == 0){
             System.out.println(-1);
             return;
         }
 
-        // 2. 뒤에서부터 꼭대기까지 숫자 중 꼭대기 바로 앞 숫자보다 큰 숫자 찾기
-        int numberIndex = findNumberIndex(topIndex);
+        // 2. 뒤에서부터 꼭대기까지 탐색하면서, topIndex-1보다 큰 수를 찾기
+        int numberIndex = findNumberIndexHigherThanTopNumber(topIndex);
 
-        // 3. 꼭대기 바로 전이랑 2번이랑 스왑
+        // 3. numbers[topIndex-1]과 numbers[numberIndex] swap
         swap(topIndex-1, numberIndex);
 
-
-        // 4. 뒤에서부터 꼭대기까지 정렬
-        topSort(topIndex);
+        // 4. 뒤에서부터 꼭대기사이의 값들 정렬
+        int left = topIndex;
+        int right = N-1;
+        while(left < right){
+            swap(left++, right--);
+        }
 
         for (int i = 0; i < N; i++) {
             System.out.print(numbers[i] + " ");
@@ -41,33 +45,25 @@ class Main {
 
     }
 
-    private static void topSort(int topIndex) {
-        int left = topIndex;
-        int right = N-1;
+    private static void swap(int index1, int index2) {
+        int temp = numbers[index1];
 
-        while(left < right){
-            swap(left++, right--);
-
-        }
+        numbers[index1] = numbers[index2];
+        numbers[index2] = temp;
     }
 
-    private static void swap(int topIndex, int numberIndex) {
-        int temp = numbers[topIndex];
-
-        numbers[topIndex] = numbers[numberIndex];
-        numbers[numberIndex] = temp;
-    }
-
-    private static int findNumberIndex(int topIndex) {
+    private static int findNumberIndexHigherThanTopNumber(int topIndex) {
 
         for (int i = N-1; i >= topIndex; i--) {
-            if(numbers[topIndex - 1] < numbers[i]) return i;
+            if(numbers[topIndex-1] < numbers[i])    return i;
         }
+
         return 0;
     }
 
     private static int findTopIndex() {
-        for (int i = N-1; i > 0 ; i--) {
+
+        for (int i = N-1; i > 0; i--) {
             if(numbers[i-1] < numbers[i]) return i;
         }
 
@@ -80,7 +76,6 @@ class Main {
         numbers = new int[N];
 
         st = new StringTokenizer(br.readLine());
-
         for (int i = 0; i < N; i++) {
             numbers[i] = Integer.parseInt(st.nextToken());
         }
