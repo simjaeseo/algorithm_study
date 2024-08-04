@@ -14,75 +14,38 @@ class Main {
         init();
 
         solve();
-//        System.out.println(sb);
-        System.out.println(countPn);
     }
 
 
     private static void solve() {
-        boolean flag = false;
+        int count = 0; // IOI 패턴의 개수를 셀 변수
+        int result = 0; // 결과값을 저장할 변수
+        int i = 1; // 반복문을 위한 인덱스 변수
 
-        // s의 0부터 s.length까지 탐색
-        for (int i = 0; i < s.length(); i++) {
-            if(s.length() - i < sb.length())    break;
-            // 8 - 0 7
-            if(s.charAt(i) == 'I'){
-
-                //이전에 Pn이 체크 안되었다면,
-                if(!flag){
-                    boolean flag2 = false;
-                    for (int j = 0; j < sb.length(); j++) {
-                        if(sb.charAt(j) != s.charAt(i+j)) {
-                            flag2 = true;
-                            break;
-                        }
-                    }
-                    if(flag2)   continue;
-                    //여기까지 왔다는건, 일치한다는 의미
-                    countPn++;
-                    flag = true;
-                    i++;
-                }else{
-                    int index = i + sb.length() - 2;
-
-                    if(sb.charAt(sb.length()-2) != s.charAt(index)){
-                        i += sb.length()-3;
-                        flag = false;
-                        continue;
-                    }else if(sb.charAt(sb.length()-1) != s.charAt(index+1)){
-                        i += sb.length()-2;
-                        flag = false;
-                        continue;
-                    }
-                    //i8
-                    //sb.len 3
-
-                    //여기까지 왔다는건, 일치한다는 의미
-//                    System.out.println(i);
-                    countPn++;
-                    i++;
-                } // 1010101
-//  10101
-//1010101010
-//0123456789
-
-//00101010
-//01234567
-//i = 4
+        // 문자열 S를 순회하면서 IOI 패턴을 찾음
+        while (i < M - 1) {
+            // 현재 위치에서 IOI 패턴을 찾으면
+            if (s.charAt(i - 1) == 'I' && s.charAt(i) == 'O' && s.charAt(i + 1) == 'I') {
+                count++; // IOI 패턴 카운트 증가
+                // 패턴이 N번 반복되는 경우 결과값 증가
+                if (count == N) {
+                    result++;
+                    count--; // 중복 카운팅을 피하기 위해 count 감소
+                }
+                i += 2; // IOI 패턴을 찾은 경우 인덱스를 2 증가시킴
+            } else {
+                count = 0; // 패턴이 끊긴 경우 count를 초기화
+                i++; // 인덱스 1 증가
             }
         }
 
+        System.out.println(result);
     }
 
 
     private static void init() throws IOException {
         N = Integer.parseInt(br.readLine());
-
-        for (int i = 0; i < N; i++) {
-            sb.append("OI");
-        }
         M = Integer.parseInt(br.readLine());
-
         s = br.readLine();
     }
 
