@@ -13,7 +13,6 @@ class Main {
     public static void main(String[] args) throws IOException {
         init();
 
-//        solve();
         System.out.println(result);
     }
 
@@ -34,18 +33,13 @@ class Main {
                 }
 
             }
-//            if(compareVoca[i] != 0 && originVoca[i] != 0) changeCount += Math.abs(compareVoca[i] - originVoca[i]);
         }
 
         int count = changeCount + addCount;
 
         if(minusCount > addCount)   count += Math.abs(addCount - minusCount);
-//        else if(minusCount < addCount) count +=
 
         if(count <= 1) result++;
-//        System.out.println(count);
-//        System.out.println(Arrays.toString(originVoca));
-//        System.out.println(Arrays.toString(compareVoca));
 
     }
 
