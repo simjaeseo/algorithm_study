@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 class Main {
-    static int N, M, A[][], B[][], count;
+    static int n, m, a[][], b[][], operations;
     static StringBuilder sb = new StringBuilder();
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer st;
@@ -17,84 +17,69 @@ class Main {
 
 
     private static void solve() {
-        boolean flag = false;
 
-        if(equalCheck()){
-            System.out.println(0);
-            return;
-        }
-
-        for (int i = 0; i < N - 2; i++) {
-            for (int j = 0; j < M - 2; j++) {
-                if(A[i][j] != B[i][j]){
-                    reverse(i, j);
-                    if(equalCheck()){
-                        flag = true;
-                        break;
-                    }
+        // 3x3 뒤집기를 수행할 수 있는 범위 내에서 탐색
+        for (int i = 0; i <= n - 3; i++) {
+            for (int j = 0; j <= m - 3; j++) {
+                // A와 B의 현재 위치가 다를 때 뒤집기 수행
+                if (a[i][j] != b[i][j]) {
+                    flip(a, i, j);
+                    operations++;
                 }
             }
-            if(flag) break;
         }
 
-        if(flag) System.out.println(count);
-        else System.out.println(-1);
-
-
-
-
-
-    }
-
-    private static boolean equalCheck() {
-
-        for (int i = 0; i < N; i++) {
-
-            for (int j = 0; j < M; j++) {
-                if(A[i][j] != B[i][j]) return false;
+        // A와 B가 같은지 확인
+        boolean isEqual = true;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (a[i][j] != b[i][j]) {
+                    isEqual = false;
+                    break;
+                }
             }
         }
 
-        return true;
+        // 결과 출력
+        if (isEqual) {
+            System.out.println(operations);
+        } else {
+            System.out.println(-1);
+        }
     }
 
-    private static void reverse(int r, int c) {
-
-        if(r+3 > N || c+3 > M)    return;
-
-        for (int i = r; i < r + 3; i++) {
-            for (int j = c; j < c + 3; j++) {
-                if(A[i][j] == 1) A[i][j] = 0;
-                else A[i][j] = 1;
+    // 3x3 부분 행렬 뒤집기
+    public static void flip(int[][] matrix, int x, int y) {
+        for (int i = x; i < x + 3; i++) {
+            for (int j = y; j < y + 3; j++) {
+                matrix[i][j] = 1 - matrix[i][j];  // 0을 1로, 1을 0으로 뒤집기
             }
         }
-        count++;
-
     }
 
 
     private static void init() throws IOException {
         st = new StringTokenizer(br.readLine());
 
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
-        A = new int[N][M];
-        B = new int[N][M];
+        a = new int[n][m];
+        b = new int[n][m];
 
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n; i++) {
             char[] inputs = br.readLine().toCharArray();
 
-            for (int j = 0; j < M; j++) {
-                A[i][j] = inputs[j] - '0';
+            for (int j = 0; j < m; j++) {
+                a[i][j] = inputs[j] - '0';
             }
         }
 
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n; i++) {
             char[] inputs = br.readLine().toCharArray();
 
-            for (int j = 0; j < M; j++) {
-                B[i][j] = inputs[j] - '0';
+            for (int j = 0; j < m; j++) {
+                b[i][j] = inputs[j] - '0';
             }
         }
 
