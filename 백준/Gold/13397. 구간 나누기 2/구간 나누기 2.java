@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 class Main {
-    static int N, M, arr[], max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
+    static int N, M, arr[], max, min;
 
     static StringBuilder sb = new StringBuilder();
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,7 +18,6 @@ class Main {
 
 
     private static void solve() {
-
         int left = 0;
         int right = max - min;
         int result = 0;
@@ -26,7 +25,7 @@ class Main {
         while(left <= right){
             int mid = (right + left) / 2;
 
-            if(canDivideInterval(mid)){
+            if(canDivide(mid)){
                 result = mid;
                 right = mid - 1;
             }else{
@@ -37,25 +36,23 @@ class Main {
         System.out.println(result);
     }
 
-    private static boolean canDivideInterval(int mid) {
-        int maxInInterval = arr[0];
-        int minInInterval = arr[0];
-        int countInterval = 1;
+    private static boolean canDivide(int mid) {
+        int minInSegment = arr[0];
+        int maxInSegment = arr[0];
+        int segment = 1;
 
         for (int i = 1; i < N; i++) {
-            maxInInterval = Math.max(maxInInterval, arr[i]);
-            minInInterval = Math.min(minInInterval, arr[i]);
+            maxInSegment = Math.max(maxInSegment, arr[i]);
+            minInSegment = Math.min(minInSegment, arr[i]);
 
-            if(maxInInterval - minInInterval > mid){
-                maxInInterval = arr[i];
-                minInInterval = arr[i];
-                countInterval++;
+            if(maxInSegment - minInSegment > mid){
+                maxInSegment = arr[i];
+                minInSegment = arr[i];
+                segment++;
             }
         }
 
-
-        return countInterval <= M;
-
+        return segment <= M;
     }
 
 
@@ -67,11 +64,14 @@ class Main {
         arr = new int[N];
 
         st = new StringTokenizer(br.readLine());
+
         for (int i = 0; i < N; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
             max = Math.max(max, arr[i]);
             min = Math.min(min, arr[i]);
         }
+
+
     }
 
 }
