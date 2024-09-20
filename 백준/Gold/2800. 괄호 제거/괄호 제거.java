@@ -9,20 +9,25 @@ class Main {
     static boolean isSelected[];
 
     static StringBuilder origin = new StringBuilder();
+    static StringBuilder sb = new StringBuilder();
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringTokenizer st;
 
     public static void main(String[] args) throws IOException {
         init();
+
         solve();
     }
+
 
     private static void solve() {
 
         Stack<Integer> stack = new Stack<>();
+
         for (int i = 0; i < origin.length(); i++) {
-            if(origin.charAt(i) == '(') {
+            if(origin.charAt(i) == '('){
                 stack.push(i);
-            } else if (origin.charAt(i) == ')') {
+            }else if(origin.charAt(i) == ')'){
                 int left = stack.pop();
                 int right = i;
                 brackets.add(new int[]{left, right});
@@ -38,8 +43,10 @@ class Main {
         for (String res : result) {
             System.out.println(res);
         }
+
     }
 
+    // 함수 안에 for문 넣는경우?
     private static void subset(int count) {
         if(count == brackets.size()){
             boolean zeroSet = false;
@@ -55,10 +62,10 @@ class Main {
             }
             if(!zeroSet) return;
 
-            String res = sb.toString().replaceAll(" ", "");
-            result.add(res);
+            result.add(sb.toString().replaceAll(" ", ""));
             return;
         }
+
 
         isSelected[count] = true;
         subset(count+1);
@@ -67,8 +74,11 @@ class Main {
         subset(count+1);
     }
 
+
     private static void init() throws IOException {
         String input = br.readLine();
+
         origin = new StringBuilder(input);
     }
+
 }
