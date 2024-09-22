@@ -29,7 +29,7 @@ class Main {
 
         bfs();
 
-        System.out.println(time[K]);
+        sb.append(time[K]).append("\n");
 
         // 경로 추적
         Stack<Integer> stack = new Stack<>();
@@ -42,9 +42,10 @@ class Main {
 
         // 경로 출력
         while(!stack.isEmpty()){
-            System.out.print(stack.pop() + " ");
+            sb.append(stack.pop()).append(" ");
         }
 
+        System.out.println(sb);
     }
 
     private static void bfs() {
