@@ -3,58 +3,77 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class Main {
-    static int[] house;
+class Main {
+    static int N, C, machines[], min = Integer.MAX_VALUE;
+
+    static StringBuilder sb = new StringBuilder();
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringTokenizer st;
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        init();
 
-        int numberOfHouse = Integer.parseInt(st.nextToken());
-        int numberOfShareMachine = Integer.parseInt(st.nextToken());
-
-        house = new int[numberOfHouse];
-
-        for (int i = 0; i < numberOfHouse; i++) {
-            house[i] = Integer.parseInt(br.readLine());
-        }
-
-        Arrays.sort(house);
-
-        // 탐색하는 것 = 공유기 설치 수
-        int start = 1;
-        int end = house[numberOfHouse-1] - house[0];
-        int max = 0;
-
-        while(start <= end){
-            int mid = (start + end) / 2;
-
-            int canInstallNumber = install(mid);
-
-            if(canInstallNumber >= numberOfShareMachine){
-                max = mid;
-                start = mid +1;
-            }else if(canInstallNumber < numberOfShareMachine){
-                end = mid -1;
-            }
-        }
-        System.out.println(max);
-        // 1 2 4 8 9
+        solve();
     }
 
-    private static int install(int distance) {
-        int count = 1;
 
-        int lastInstallHouse = house[0];
+    private static void solve() {
+        Arrays.sort(machines);
 
-        for (int i = 1; i < house.length; i++) {
-            int nextInstallHouse = house[i];
+        for (int i = 1; i < N; i++) {
+            min = Math.min(min, machines[i] - machines[i-1]);
+        }
 
-            if(nextInstallHouse - lastInstallHouse >= distance){
-                count++;
-                lastInstallHouse = nextInstallHouse;
+        int left = 1;
+        int right = machines[N-1] - machines[0];
+        int answer = 0;
+
+        while(left <= right){
+            int mid = (left + right) / 2;
+
+            if(canDivideInterval(mid)){
+                answer = mid;
+                left = mid + 1;
+            }else{
+                right = mid - 1;
             }
         }
-        return count;
+
+        System.out.println(answer);
+
+    }
+
+    private static boolean canDivideInterval(int mid) {
+        int minInInterval = machines[0];
+        int maxInInterval = machines[0];
+        int countInterval = 1;
+
+        for (int i = 1; i < N; i++) {
+            maxInInterval = Math.max(maxInInterval, machines[i]);
+
+
+            if(maxInInterval - minInInterval >= mid){
+                minInInterval = machines[i];
+                maxInInterval = machines[i];
+                countInterval++;
+            }
+        }
+
+        return countInterval >= C;
+    }
+
+
+    private static void init() throws IOException {
+        st = new StringTokenizer(br.readLine());
+
+        N = Integer.parseInt(st.nextToken());
+        C = Integer.parseInt(st.nextToken());
+
+        machines = new int[N];
+
+        for (int i = 0; i < N; i++) {
+            machines[i] = Integer.parseInt(br.readLine());
+        }
+
     }
 }
