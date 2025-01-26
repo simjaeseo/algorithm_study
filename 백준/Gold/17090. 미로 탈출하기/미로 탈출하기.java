@@ -30,7 +30,7 @@ class Main {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
-                if(dp[i][j] != -1) answer += dp[i][j];
+                if(dp[i][j] > 0) answer += dp[i][j];
             }
         }
 
@@ -68,7 +68,7 @@ class Main {
             return dp[r][c];
         }
 
-        dp[r][c] = dp[r][c] + dfs(nextR, nextC);
+        dp[r][c] = dfs(nextR, nextC);
         return dp[r][c];
     }
 
