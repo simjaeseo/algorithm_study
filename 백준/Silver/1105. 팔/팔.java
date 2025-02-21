@@ -4,8 +4,8 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 class Main {
-    static int L, R;
-    static String Ls, Rs;
+    static char[] L, R;
+    static int answer;
 
     static StringBuilder sb = new StringBuilder();
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,64 +18,37 @@ class Main {
     }
 
 
-    private static void solve() throws IOException {
-        st = new StringTokenizer(br.readLine());
+    private static void solve() {
 
-        Ls = st.nextToken();
-        Rs = st.nextToken();
-
-        boolean LFlag = false;
-        boolean RFlag = false;
-
-        for (int i = 0; i < Ls.length(); i++) {
-            if(Ls.charAt(i) == '8') {
-                LFlag = true;
-                break;
-            }
-        }
-
-        for (int i = 0; i < Rs.length(); i++) {
-            if(Rs.charAt(i) == '8') {
-                RFlag = true;
-                break;
-            }
-        }
-
-        if(!LFlag || !RFlag || Ls.length() != Rs.length()){
+        if(!hadEight(L) || !hadEight(R) || L.length != R.length) {
             System.out.println(0);
             return;
         }
 
-        if(Ls.equals(Rs)){
-            int eightCount = 0;
-
-            for (int i = 0; i < Ls.length(); i++) {
-                if(Ls.charAt(i) == Rs.charAt(i) && Ls.charAt(i) == '8') eightCount++;
-            }
-            System.out.println(eightCount);
-            return;
+        for (int i = 0; i < L.length; i++) {
+            if(L[i] == R[i]) {
+                if (L[i] == '8') answer++;
+            }else break;
         }
 
-        boolean eightEqual = false;
+        System.out.println(answer);
+    }
 
+    private static boolean hadEight(char[] numbers) {
 
-        int eightCount = 0;
-        for (int i = 0; i < Ls.length() - 1; i++) {
-            if(!eightEqual && Ls.charAt(i) != Rs.charAt(i)) break;
-            else if(Ls.charAt(i) == Rs.charAt(i) && Ls.charAt(i) == '8'){
-                eightEqual = true;
-                eightCount++;
-            }else if(eightEqual && Ls.charAt(i) != Rs.charAt(i)) break;
+        for (int i = 0; i < numbers.length; i++) {
+            if(numbers[i] == '8') return true;
         }
 
-        System.out.println(eightCount);
 
+        return false;
     }
 
 
     private static void init() throws IOException {
+        st = new StringTokenizer(br.readLine());
 
-
+        L = st.nextToken().toCharArray();
+        R = st.nextToken().toCharArray();
     }
-
 }
